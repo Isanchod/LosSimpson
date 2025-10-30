@@ -1,4 +1,5 @@
 package edu.iesam.lossimpson.features.characters.domain
 
-class ErrorApp {
+sealed class ErrorApp: Throwable() {
+    object ApiError : ErrorApp()
 }
