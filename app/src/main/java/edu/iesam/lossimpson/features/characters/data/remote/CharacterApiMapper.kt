@@ -8,7 +8,7 @@ fun CharacterApiModel.toModel(): SimpsonCharacter {
         this.name,
         this.status,
         this.occupation,
-        "https://cdn.thesimpsonsapi.com/200${this.portrait_path}"
+        "https://cdn.thesimpsonsapi.com/200${this.portraitPath}"
         )
 }
 fun ApiResponse.toCharacter(): List<SimpsonCharacter> {

@@ -7,7 +7,8 @@ data class CharacterApiModel(
     val name: String,
     val status: String,
     val occupation: String,
-    val portrait_path : String
+    @SerializedName("portrait_path")
+    val portraitPath : String
 )
 
 data class ApiResponse(
