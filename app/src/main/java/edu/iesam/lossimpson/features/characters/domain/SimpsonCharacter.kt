@@ -6,6 +6,4 @@ data class SimpsonCharacter(
     val status: String,
     val ocupation: String,
     val portraitPath: String?
-) {
-
-}
+)
