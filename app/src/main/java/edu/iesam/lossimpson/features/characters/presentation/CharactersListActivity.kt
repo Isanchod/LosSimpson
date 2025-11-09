@@ -7,25 +7,49 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import edu.iesam.lossimpson.R
 import edu.iesam.lossimpson.core.api.ApiClient
+import edu.iesam.lossimpson.databinding.ActivityMainBinding
 import edu.iesam.lossimpson.features.characters.data.CharacterDataRepository
 import edu.iesam.lossimpson.features.characters.data.remote.CharactersApiRemoteDataSource
 import edu.iesam.lossimpson.features.characters.domain.Get20FIrstCharactersUseCase
+import edu.iesam.lossimpson.features.characters.domain.SimpsonCharacter
 
 class CharactersListActivity : AppCompatActivity() {
+
+    lateinit var binding: ActivityMainBinding
+
+    private val characterAdapter = CharacterAdapter()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
-
+        setUpBinding()
+        setUpView()
         setUpObserver()
         viewModel.load20FirstCharacters()
+
+    }
+
+    private fun setUpBinding(){
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+    }
+
+    private fun setUpView(){
+        binding.apply {
+            list.layoutManager = LinearLayoutManager(
+                this@CharactersListActivity,
+                LinearLayoutManager.VERTICAL,
+                false
+            )
+            list.adapter = characterAdapter
+        }
+    }
+
+    private fun bind(characters: List<SimpsonCharacter>){
+        characterAdapter.addDataList(characters)
     }
 
     private val viewModel = CharactersListViewModel(
@@ -52,8 +76,9 @@ class CharactersListActivity : AppCompatActivity() {
                 //TODO
             }
 
-            uiState.characters.let {
+            uiState.characters?.let {
                 Log.d("@dev", "${uiState.characters}")
+                bind(it)
             }
         }
         viewModel.uiState.observe(this, observer)

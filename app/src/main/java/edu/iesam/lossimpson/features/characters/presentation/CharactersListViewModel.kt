@@ -17,7 +17,7 @@ class CharactersListViewModel(
     private val _uiState = MutableLiveData<UiState>()
     val uiState : LiveData<UiState> = _uiState
 
-    fun load20FirstCharacters() {
+    fun load20FirstCharacters(){
         viewModelScope.launch {
             _uiState.value = UiState(isLoading = true)
             get20FIrstCharactersUseCase().fold(
@@ -28,7 +28,9 @@ class CharactersListViewModel(
     }
 
     fun loadOnSuccess(characters: List<SimpsonCharacter>) {
+        Log.d("@Dev, ","$characters")
         _uiState.value = UiState(characters = characters)
+        Log.d("@Dev, ","${uiState.value}")
     }
 
     fun loadOnFailure(errorApp: ErrorApp) {
