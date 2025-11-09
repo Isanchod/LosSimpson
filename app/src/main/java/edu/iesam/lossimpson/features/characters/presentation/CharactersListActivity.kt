@@ -49,7 +49,7 @@ class CharactersListActivity : AppCompatActivity() {
     }
 
     private fun bind(characters: List<SimpsonCharacter>){
-        characterAdapter.addDataList(characters)
+        characterAdapter.submitList(characters)
     }
 
     private val viewModel = CharactersListViewModel(
